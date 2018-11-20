@@ -65,14 +65,9 @@ def simulate(Instruction,Hex):
             PC += 1
             Memory[imm + Register[int(fetch[6:11],2)] - 8192]= Register[int(fetch[11:16],2)]
 
- 
-
     print("DIC: " +str(DIC))
     print("Registers: " + str(Register))
      
-   
-
-
 def main():
     I_file = open("i_mem.txt","r")
     Instruction = []             
@@ -85,10 +80,7 @@ def main():
         line = format(int(line,16),"032b")
         Instruction.append(line)
         
-    
     simulate(Instruction,Hex)
-
-
 
 if __name__ == "__main__":
     main()
