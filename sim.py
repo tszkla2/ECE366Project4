@@ -10,7 +10,7 @@ def simulate(Instruction,Hex):
     
         DIC += 1
         fetch = Instruction[PC]
-        
+    
         if (fetch[0:32] == '00010000000000001111111111111111'):
             print("PC =" + str(PC*4) + " Instruction: 0x" +  Hex[PC] + " : Deadloop.")
             finished = True
@@ -22,8 +22,11 @@ def simulate(Instruction,Hex):
         elif (fetch[0:6] == '000000' and fetch[26:32] == '100010'): #sub
             PC += 1
             Register[int(fetch[16:21],2)] = Register[int(fetch[6:11],2)] - Register[int(fetch[11:16],2)]
-           
 
+        elif (fetch[0:6] == '000000' and fetch[26:32] == '100110'): #xor
+            PC += 1
+            Register[int(fetch[16:21],2)] = Register[int(fetch[6:11],2)] ^ Register[int(fetch[11:16],2)] 
+           
         elif(fetch[0:6] == '001000'): #addi
             imm = int(fetch[16:32],2)
             PC += 1
@@ -37,6 +40,14 @@ def simulate(Instruction,Hex):
             else:
                 PC
 
+        elif(fetch[0:6] == '000101'): #bne
+            imm = int(fetch[16:32],2)
+            PC += 1
+            if (Register[int(fetch[6:11],2)] == Register[int(fetch[11:16],2)]):
+                PC
+            else:
+                PC = PC + imm
+
         elif(fetch[0:6] == '000000' and fetch[26:32] == '101010'): #slt
             PC += 1
             if Register[int(fetch[6:11],2)] < Register[int(fetch[11:16],2)]:
@@ -44,15 +55,16 @@ def simulate(Instruction,Hex):
             else:
                 0
 
+        elif(fetch[0:6] == '100011'): #lw
+            imm = int(fetch[16:32],2)
+            PC += 1
+            Register[int(fetch[11:16],2)] = Memory[imm + Register[int(fetch[6:11],2)] - 8192]
+
         elif(fetch[0:6] == '101011'): #sw
             imm = int(fetch[16:32],2)
             PC += 1
             Memory[imm + Register[int(fetch[6:11],2)] - 8192]= Register[int(fetch[11:16],2)]
 
-        elif(fetch[0:6] == '100011'): #lw
-            imm = int(fetch[16:32],2)
-            PC += 1
-            Register[int(fetch[11:16],2)] = Memory[imm + Register[int(fetch[6:11],2)] - 8192]
  
 
     print("DIC: " +str(DIC))
