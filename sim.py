@@ -18,6 +18,10 @@ def simulate(Instruction,Hex):
         elif (fetch[0:6] == '000000' and fetch[26:32] == '100000'): #add
             PC += 1
             Register[int(fetch[16:21],2)] = Register[int(fetch[6:11],2)] + Register[int(fetch[11:16],2)]
+
+        elif (fetch[0:6] == '000000' and fetch[26:32] == '100010'): #sub
+            PC += 1
+            Register[int(fetch[16:21],2)] = Register[int(fetch[6:11],2)] - Register[int(fetch[11:16],2)]
            
 
         elif(fetch[0:6] == '001000'): #addi
