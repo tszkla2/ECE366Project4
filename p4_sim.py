@@ -1,8 +1,13 @@
-mem_space = 4096
+import math
+mem_size = 4096
+blocks = 8
+words = 4
+offset = int(math.log(blocks,2))
+
 
 def simulate(Instruction,Hex):
     Register = [0,0,0,0,0,0,0,0]
-    Memory = [0 for i in range(mem_space)]
+    Memory = [0 for i in range(mem_size)]
     Cycle = 0
     Cycle_count = 1
     Cycle_3 = 0
@@ -11,9 +16,18 @@ def simulate(Instruction,Hex):
     PC = 0
     DIC = 0
     Pipeline = 0
+    lw_use = 0
+    compute_branch = 0
+    branch_flush = 0
 
-    finished = False
+    Cache =  [0 for i in range(blocks)]
+    Valid =  [0 for i in range(blocks)]
+    Tag   =  ['0' for i in range(blocks)]
+    Hit = 0
+    Miss = 0
     
+    finished = False
+
     while(not(finished)):
     
         DIC += 1
@@ -137,7 +151,25 @@ def simulate(Instruction,Hex):
             Cycle_count += 5
             Cycle_5 += 1
             Pipeline += 1
-            Register[int(fetch[11:16],2)] = Memory[imm + Register[int(fetch[6:11],2)] - 8192]
+            
+            temp = int(fetch[32-offset-2:32-2],2)
+            
+            if (Valid[temp] == 0):  #Miss
+                Miss += 1
+                Cache[temp] = Memory[imm + Register[int(fetch[6:11],2)] - 8192]
+                Register[int(fetch[11:16],2)] = Cache[temp]
+                Valid[temp] = 1    #Valid = 1
+                Tag[temp] = fetch[16:32-offset-2]
+            else: #Valid = 1
+                if(Tag[temp] == fetch[16:32-offset-2]): #Hit
+                    Hit += 1
+                    Register[int(fetch[11:16],2)] = Cache[temp]
+                else:   #Miss
+                    Miss += 1
+                    Cache[temp] = Memory[imm + Register[int(fetch[6:11],2)] - 8192]
+                    Register[int(fetch[11:16],2)] = Cache[temp]
+                    Tag[temp] = fetch[16:32-offset-2]
+          
 
         elif(fetch[0:6] == '101011'): #sw
             imm = int(fetch[16:32],2)
@@ -149,8 +181,26 @@ def simulate(Instruction,Hex):
             Cycle_count += 4
             Cycle_4 += 1
             Pipeline += 1
-            Memory[imm + Register[int(fetch[6:11],2)] - 8192]= Register[int(fetch[11:16],2)]
 
+            #temp = int(fetch[32-offset-2:32-2],2)
+            
+            #if (Valid[temp] == 0):  #Miss
+            #    Miss += 1
+            #    Memory[imm + Register[int(fetch[6:11],2)] - 8192] = Register[int(fetch[11:16],2)]
+            #    Cache[temp] = Register[int(fetch[11:16],2)]
+            #    Valid[temp] = 1
+            #    Tag[temp] = fetch[16:32-offset-2]
+            #else:   #Valid = 1
+            #   if(Tag[temp] == fetch[16:32-offset-2]):     #Hit
+            #        Hit += 1
+            #        Cache[temp] = Register[int(fetch[11:16],2)] 
+            #    else:   #Miss
+            #        Miss += 1
+            #        Memory[imm + Register[int(fetch[6:11],2)] - 8192] = Register[int(fetch[11:16],2)]
+            #        Cache[temp] = Register[int(fetch[11:16],2)]
+            #        Tag[temp] = fetch[16:32-offset-2]
+
+    print("---------------------------------")
     print("DIC: "+str(DIC))
     print("Single Cycle: " + str(DIC))
     print("Multi Cycle: " + str(Cycle))
@@ -158,6 +208,14 @@ def simulate(Instruction,Hex):
     print("3 Step Cycles: " + str(Cycle_3))
     print("4 Step Cycles: " + str(Cycle_4))
     print("5 Step Cycles: " + str(Cycle_5))
+    print("\n")
+    print("Hit: " + str(Hit))
+    print("Miss: " + str(Miss))
+    if(Hit == 0):
+        print("Hitrate: 0") 
+    else:
+        print("Hitrate: " + str(100*(float(Hit)/float(Hit + Miss))) + "%")
+        
     print("\n")
     print("Registers: ")
     print("$0: " + str(Register[0]))
@@ -169,9 +227,14 @@ def simulate(Instruction,Hex):
     print("$6: " + str(Register[6]))
     print("$7: " + str(Register[7]))
     print("PC: " + str(PC*4))
+    print("\n")
+    print("Cache: " + str(Cache))
+    print("Valid: " + str(Valid))
+    print("Tag: " + str(Tag))
+    #print("Memory: " + str(Memory))
      
 def main():
-    I_file = open("i_mem_test.txt","r")     #Change file name to change input file
+    I_file = open("i_mem_A1.txt","r")     #Change file name to change input file
     Instruction = []             
     Hex = []
     for line in I_file:
