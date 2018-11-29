@@ -1,8 +1,8 @@
 import math
 mem_size = 4096
-blocks = 8
-words = 4
-offset = int(math.log(blocks,2))
+total_blocks = 8
+block_size = 32
+offset = int(math.log(total_blocks,2))
 
 
 def simulate(Instruction,Hex):
@@ -20,9 +20,9 @@ def simulate(Instruction,Hex):
     compute_branch = 0
     branch_flush = 0
 
-    Cache =  [0 for i in range(blocks)]
-    Valid =  [0 for i in range(blocks)]
-    Tag   =  ['0' for i in range(blocks)]
+    Cache =  [0 for i in range(total_blocks)]
+    Valid =  [0 for i in range(total_blocks)]
+    Tag   =  ['0' for i in range(total_blocks)]
     Hit = 0
     Miss = 0
     
