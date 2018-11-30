@@ -371,7 +371,7 @@ def simulate(Instruction,Hex):
     #print("Memory: " + str(Memory))
      
 def main():
-    I_file = open("i_mem_A2.txt","r")     #Change file name to change input file
+    I_file = open("i_mem_A1.txt","r")     #Change file name to change input file
     Instruction = []             
     Hex = []
     for line in I_file:
