@@ -3,6 +3,11 @@ Part 3 is split up into a) and b)
 -----------------------------------
 a) total_blocks = 2
    block_size = 64
+   #lw
+   addr = bin(Register[int(fetch[6:11], 2)] + imm)
+   tag = int(addr[0:12], 2)
+   block_index = int(addr[12])
+   offset = addr[13:16]
 -----------------------------------
 Python 3.7.0 (v3.7.0:1bf9cc5093, Jun 27 2018, 04:06:47) [MSC v.1914 32 bit (Intel)] on win32
 Type "copyright", "credits" or "license()" for more information.
@@ -573,4 +578,574 @@ Tag: [513, 513]
 -----------------------------------
 b) total_blocks = 4
    block_size = 32
+   #lw
+   addr = bin(Register[int(fetch[6:11], 2)] + imm)
+   tag = int(addr[0:11], 2)
+   block_index = int(addr[11:13],2)
+   offset = addr[13:16]
 -----------------------------------
+Python 3.7.0 (v3.7.0:1bf9cc5093, Jun 27 2018, 04:06:47) [MSC v.1914 32 bit (Intel)] on win32
+Type "copyright", "credits" or "license()" for more information.
+>>> 
+====== RESTART: C:\Users\Tom\Documents\GitHub\ECE366Project4\p4_sim.py ======
+Cycles: 1
+PC: 0 Instruction: 0x20010002 :addi $1,$0,2
+Taking 4 cycles
+
+
+Cycles: 5
+PC: 4 Instruction: 0x2002001c :addi $2,$0,28
+Taking 4 cycles
+
+
+Cycles: 9
+PC: 8 Instruction: 0xac412000 :sw $1,0x2000($2)
+Taking 4 cycles
+
+
+Cycles: 13
+PC: 12 Instruction: 0x2042fffc :addi $2,$2,-4
+Taking 4 cycles
+
+
+Cycles: 17
+PC: 16 Instruction: 0x10400004 :beq $2,$0,4
+Taking 3 cycles
+Compute-Branch Compare Hazard
+
+
+Cycles: 20
+PC: 20 Instruction: 0x00210820 :add $1,$1,$1
+Taking 4 cycles
+
+
+Cycles: 24
+PC: 24 Instruction: 0x00010822 :sub $1,$0,$1
+Taking 4 cycles
+
+
+Cycles: 28
+PC: 28 Instruction: 0x20210003 :addi $1,$1,3
+Taking 4 cycles
+
+
+Cycles: 32
+PC: 32 Instruction: 0x1063fff9 :beq $3,$3,-7
+Taking 3 cycles
+
+
+Cycles: 35
+PC: 8 Instruction: 0xac412000 :sw $1,0x2000($2)
+Taking 4 cycles
+Branch Flush Hazard
+
+
+Cycles: 39
+PC: 12 Instruction: 0x2042fffc :addi $2,$2,-4
+Taking 4 cycles
+
+
+Cycles: 43
+PC: 16 Instruction: 0x10400004 :beq $2,$0,4
+Taking 3 cycles
+Compute-Branch Compare Hazard
+
+
+Cycles: 46
+PC: 20 Instruction: 0x00210820 :add $1,$1,$1
+Taking 4 cycles
+
+
+Cycles: 50
+PC: 24 Instruction: 0x00010822 :sub $1,$0,$1
+Taking 4 cycles
+
+
+Cycles: 54
+PC: 28 Instruction: 0x20210003 :addi $1,$1,3
+Taking 4 cycles
+
+
+Cycles: 58
+PC: 32 Instruction: 0x1063fff9 :beq $3,$3,-7
+Taking 3 cycles
+
+
+Cycles: 61
+PC: 8 Instruction: 0xac412000 :sw $1,0x2000($2)
+Taking 4 cycles
+Branch Flush Hazard
+
+
+Cycles: 65
+PC: 12 Instruction: 0x2042fffc :addi $2,$2,-4
+Taking 4 cycles
+
+
+Cycles: 69
+PC: 16 Instruction: 0x10400004 :beq $2,$0,4
+Taking 3 cycles
+Compute-Branch Compare Hazard
+
+
+Cycles: 72
+PC: 20 Instruction: 0x00210820 :add $1,$1,$1
+Taking 4 cycles
+
+
+Cycles: 76
+PC: 24 Instruction: 0x00010822 :sub $1,$0,$1
+Taking 4 cycles
+
+
+Cycles: 80
+PC: 28 Instruction: 0x20210003 :addi $1,$1,3
+Taking 4 cycles
+
+
+Cycles: 84
+PC: 32 Instruction: 0x1063fff9 :beq $3,$3,-7
+Taking 3 cycles
+
+
+Cycles: 87
+PC: 8 Instruction: 0xac412000 :sw $1,0x2000($2)
+Taking 4 cycles
+Branch Flush Hazard
+
+
+Cycles: 91
+PC: 12 Instruction: 0x2042fffc :addi $2,$2,-4
+Taking 4 cycles
+
+
+Cycles: 95
+PC: 16 Instruction: 0x10400004 :beq $2,$0,4
+Taking 3 cycles
+Compute-Branch Compare Hazard
+
+
+Cycles: 98
+PC: 20 Instruction: 0x00210820 :add $1,$1,$1
+Taking 4 cycles
+
+
+Cycles: 102
+PC: 24 Instruction: 0x00010822 :sub $1,$0,$1
+Taking 4 cycles
+
+
+Cycles: 106
+PC: 28 Instruction: 0x20210003 :addi $1,$1,3
+Taking 4 cycles
+
+
+Cycles: 110
+PC: 32 Instruction: 0x1063fff9 :beq $3,$3,-7
+Taking 3 cycles
+
+
+Cycles: 113
+PC: 8 Instruction: 0xac412000 :sw $1,0x2000($2)
+Taking 4 cycles
+Branch Flush Hazard
+
+
+Cycles: 117
+PC: 12 Instruction: 0x2042fffc :addi $2,$2,-4
+Taking 4 cycles
+
+
+Cycles: 121
+PC: 16 Instruction: 0x10400004 :beq $2,$0,4
+Taking 3 cycles
+Compute-Branch Compare Hazard
+
+
+Cycles: 124
+PC: 20 Instruction: 0x00210820 :add $1,$1,$1
+Taking 4 cycles
+
+
+Cycles: 128
+PC: 24 Instruction: 0x00010822 :sub $1,$0,$1
+Taking 4 cycles
+
+
+Cycles: 132
+PC: 28 Instruction: 0x20210003 :addi $1,$1,3
+Taking 4 cycles
+
+
+Cycles: 136
+PC: 32 Instruction: 0x1063fff9 :beq $3,$3,-7
+Taking 3 cycles
+
+
+Cycles: 139
+PC: 8 Instruction: 0xac412000 :sw $1,0x2000($2)
+Taking 4 cycles
+Branch Flush Hazard
+
+
+Cycles: 143
+PC: 12 Instruction: 0x2042fffc :addi $2,$2,-4
+Taking 4 cycles
+
+
+Cycles: 147
+PC: 16 Instruction: 0x10400004 :beq $2,$0,4
+Taking 3 cycles
+Compute-Branch Compare Hazard
+
+
+Cycles: 150
+PC: 20 Instruction: 0x00210820 :add $1,$1,$1
+Taking 4 cycles
+
+
+Cycles: 154
+PC: 24 Instruction: 0x00010822 :sub $1,$0,$1
+Taking 4 cycles
+
+
+Cycles: 158
+PC: 28 Instruction: 0x20210003 :addi $1,$1,3
+Taking 4 cycles
+
+
+Cycles: 162
+PC: 32 Instruction: 0x1063fff9 :beq $3,$3,-7
+Taking 3 cycles
+
+
+Cycles: 165
+PC: 8 Instruction: 0xac412000 :sw $1,0x2000($2)
+Taking 4 cycles
+Branch Flush Hazard
+
+
+Cycles: 169
+PC: 12 Instruction: 0x2042fffc :addi $2,$2,-4
+Taking 4 cycles
+
+
+Cycles: 173
+PC: 16 Instruction: 0x10400004 :beq $2,$0,4
+Taking 3 cycles
+Compute-Branch Compare Hazard
+
+
+Cycles: 176
+PC: 36 Instruction: 0x20050020 :addi $5,$0,32
+Taking 4 cycles
+
+
+Cycles: 180
+PC: 40 Instruction: 0x8c412000 :lw $1,0x2000($2)
+Taking 5 cycles
+MISS !
+Block Index : 0
+Memory Address : 0x2000
+Valid Bit : 0
+Tag : 0
+Cache Updated
+
+
+Cycles: 185
+PC: 44 Instruction: 0x0020182a :slt $3,$1,$0
+Taking 4 cycles
+lw-use Hazard
+
+
+Cycles: 189
+PC: 48 Instruction: 0x10600001 :beq $3,$0,1
+Taking 3 cycles
+Compute-Branch Compare Hazard
+
+
+Cycles: 192
+PC: 56 Instruction: 0x20420004 :addi $2,$2,4
+Taking 4 cycles
+
+
+Cycles: 196
+PC: 60 Instruction: 0x1445fffa :bne $2,$5,-6
+Taking 3 cycles
+
+
+Cycles: 199
+PC: 40 Instruction: 0x8c412000 :lw $1,0x2000($2)
+Taking 5 cycles
+Branch Flush Hazard
+HIT !
+Block Index : 0
+Memory Address : 0x2004
+Valid Bit : 1
+Tag : 256
+
+
+Cycles: 204
+PC: 44 Instruction: 0x0020182a :slt $3,$1,$0
+Taking 4 cycles
+lw-use Hazard
+
+
+Cycles: 208
+PC: 48 Instruction: 0x10600001 :beq $3,$0,1
+Taking 3 cycles
+Compute-Branch Compare Hazard
+
+
+Cycles: 211
+PC: 56 Instruction: 0x20420004 :addi $2,$2,4
+Taking 4 cycles
+
+
+Cycles: 215
+PC: 60 Instruction: 0x1445fffa :bne $2,$5,-6
+Taking 3 cycles
+
+
+Cycles: 218
+PC: 40 Instruction: 0x8c412000 :lw $1,0x2000($2)
+Taking 5 cycles
+Branch Flush Hazard
+MISS !
+Block Index : 1
+Memory Address : 0x2008
+Valid Bit : 0
+Tag : 0
+Cache Updated
+
+
+Cycles: 223
+PC: 44 Instruction: 0x0020182a :slt $3,$1,$0
+Taking 4 cycles
+lw-use Hazard
+
+
+Cycles: 227
+PC: 48 Instruction: 0x10600001 :beq $3,$0,1
+Taking 3 cycles
+Compute-Branch Compare Hazard
+
+
+Cycles: 230
+PC: 56 Instruction: 0x20420004 :addi $2,$2,4
+Taking 4 cycles
+
+
+Cycles: 234
+PC: 60 Instruction: 0x1445fffa :bne $2,$5,-6
+Taking 3 cycles
+
+
+Cycles: 237
+PC: 40 Instruction: 0x8c412000 :lw $1,0x2000($2)
+Taking 5 cycles
+Branch Flush Hazard
+HIT !
+Block Index : 1
+Memory Address : 0x200c
+Valid Bit : 1
+Tag : 256
+
+
+Cycles: 242
+PC: 44 Instruction: 0x0020182a :slt $3,$1,$0
+Taking 4 cycles
+lw-use Hazard
+
+
+Cycles: 246
+PC: 48 Instruction: 0x10600001 :beq $3,$0,1
+Taking 3 cycles
+Compute-Branch Compare Hazard
+
+
+Cycles: 249
+PC: 56 Instruction: 0x20420004 :addi $2,$2,4
+Taking 4 cycles
+
+
+Cycles: 253
+PC: 60 Instruction: 0x1445fffa :bne $2,$5,-6
+Taking 3 cycles
+
+
+Cycles: 256
+PC: 40 Instruction: 0x8c412000 :lw $1,0x2000($2)
+Taking 5 cycles
+Branch Flush Hazard
+MISS !
+Block Index : 2
+Memory Address : 0x2010
+Valid Bit : 0
+Tag : 0
+Cache Updated
+
+
+Cycles: 261
+PC: 44 Instruction: 0x0020182a :slt $3,$1,$0
+Taking 4 cycles
+lw-use Hazard
+
+
+Cycles: 265
+PC: 48 Instruction: 0x10600001 :beq $3,$0,1
+Taking 3 cycles
+Compute-Branch Compare Hazard
+
+
+Cycles: 268
+PC: 56 Instruction: 0x20420004 :addi $2,$2,4
+Taking 4 cycles
+
+
+Cycles: 272
+PC: 60 Instruction: 0x1445fffa :bne $2,$5,-6
+Taking 3 cycles
+
+
+Cycles: 275
+PC: 40 Instruction: 0x8c412000 :lw $1,0x2000($2)
+Taking 5 cycles
+Branch Flush Hazard
+HIT !
+Block Index : 2
+Memory Address : 0x2014
+Valid Bit : 1
+Tag : 256
+
+
+Cycles: 280
+PC: 44 Instruction: 0x0020182a :slt $3,$1,$0
+Taking 4 cycles
+lw-use Hazard
+
+
+Cycles: 284
+PC: 48 Instruction: 0x10600001 :beq $3,$0,1
+Taking 3 cycles
+Compute-Branch Compare Hazard
+
+
+Cycles: 287
+PC: 56 Instruction: 0x20420004 :addi $2,$2,4
+Taking 4 cycles
+
+
+Cycles: 291
+PC: 60 Instruction: 0x1445fffa :bne $2,$5,-6
+Taking 3 cycles
+
+
+Cycles: 294
+PC: 40 Instruction: 0x8c412000 :lw $1,0x2000($2)
+Taking 5 cycles
+Branch Flush Hazard
+MISS !
+Block Index : 3
+Memory Address : 0x2018
+Valid Bit : 0
+Tag : 0
+Cache Updated
+
+
+Cycles: 299
+PC: 44 Instruction: 0x0020182a :slt $3,$1,$0
+Taking 4 cycles
+lw-use Hazard
+
+
+Cycles: 303
+PC: 48 Instruction: 0x10600001 :beq $3,$0,1
+Taking 3 cycles
+Compute-Branch Compare Hazard
+
+
+Cycles: 306
+PC: 56 Instruction: 0x20420004 :addi $2,$2,4
+Taking 4 cycles
+
+
+Cycles: 310
+PC: 60 Instruction: 0x1445fffa :bne $2,$5,-6
+Taking 3 cycles
+
+
+Cycles: 313
+PC: 40 Instruction: 0x8c412000 :lw $1,0x2000($2)
+Taking 5 cycles
+Branch Flush Hazard
+HIT !
+Block Index : 3
+Memory Address : 0x201c
+Valid Bit : 1
+Tag : 256
+
+
+Cycles: 318
+PC: 44 Instruction: 0x0020182a :slt $3,$1,$0
+Taking 4 cycles
+lw-use Hazard
+
+
+Cycles: 322
+PC: 48 Instruction: 0x10600001 :beq $3,$0,1
+Taking 3 cycles
+Compute-Branch Compare Hazard
+
+
+Cycles: 325
+PC: 56 Instruction: 0x20420004 :addi $2,$2,4
+Taking 4 cycles
+
+
+Cycles: 329
+PC: 60 Instruction: 0x1445fffa :bne $2,$5,-6
+Taking 3 cycles
+
+
+Cycles: 332
+PC: 64 Instruction: 0xac042000 :sw $4,0x2000($0)
+Taking 4 cycles
+
+
+PC: 68 Instruction: 0x1000ffff :Deadloop 
+
+---------------------------------
+DIC: 90
+Single Cycle: 90
+Multi Cycle: 338
+Pipeline Cycle: 130
+3 Step Cycles: 30
+4 Step Cycles: 52
+5 Step Cycles: 8
+Compute-Branch: 15
+lw-Use: 8
+Branch Flush: 13
+
+
+Hit: 4
+Miss: 4
+Hitrate: 50.0%
+
+
+Registers: 
+$0: 0
+$1: 0
+$2: 32
+$3: 0
+$4: 0
+$5: 32
+$6: 0
+$7: 0
+PC: 68
+
+
+Cache: [0, 0, 0, 0]
+Valid: [1, 1, 1, 1]
+Tag: [256, 256, 256, 256]
+>>> 

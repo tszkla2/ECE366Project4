@@ -1,7 +1,7 @@
 import math
 mem_size = 4096
-total_blocks = 2
-block_size = 64
+total_blocks = 4
+block_size = 32
 #offset = int(math.log(total_blocks,2))
 
 
@@ -296,8 +296,8 @@ def simulate(Instruction,Hex):
             Pipeline += 1
 
             addr = bin(Register[int(fetch[6:11], 2)] + imm)
-            tag = int(addr[0:12], 2)
-            block_index = int(addr[12])
+            tag = int(addr[0:11], 2)
+            block_index = int(addr[11:13],2)
             offset = addr[13:16]
 
             if (Valid[block_index] == 0):  # Miss
