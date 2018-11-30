@@ -1,8 +1,8 @@
 import math
 mem_size = 4096
 total_blocks = 2
-block_size = 4
-offset = int(math.log(total_blocks,2))
+block_size = 64
+#offset = int(math.log(total_blocks,2))
 
 
 def simulate(Instruction,Hex):
@@ -294,25 +294,44 @@ def simulate(Instruction,Hex):
             Cycle_count += 5
             Cycle_5 += 1
             Pipeline += 1
-            
-            temp = int(fetch[32-offset-2:32-2],2)
-            
-            if (Valid[temp] == 0):  #Miss
+
+            addr = bin(Register[int(fetch[6:11], 2)] + imm)
+            tag = int(addr[0:12], 2)
+            block_index = int(addr[12])
+            offset = addr[13:16]
+
+            if (Valid[block_index] == 0):  # Miss
+                print("MISS !")
+                print("Block Index : " + str(block_index))
+                print("Memory Address : " + hex(int(addr, 2)))
+                print("Valid Bit : 0")
+                print("Tag : " + str(Tag[block_index]))
                 Miss += 1
-                Cache[temp] = Memory[imm + Register[int(fetch[6:11],2)] - 8192]
-                Register[int(fetch[11:16],2)] = Cache[temp]
-                Valid[temp] = 1    #Valid = 1
-                Tag[temp] = fetch[16:32-offset-2]
-            else: #Valid = 1
-                if(Tag[temp] == fetch[16:32-offset-2]): #Hit
+                Cache[block_index] = Memory[int(addr, 2) - 8192]
+                Register[int(fetch[11:16], 2)] = Cache[block_index]
+                Valid[block_index] = 1  # Valid = 1
+                Tag[block_index] = tag
+                print("Cache Updated")
+            else:  # Valid = 1
+                if (Tag[block_index] == tag):  # Hit
+                    print("HIT !")
+                    print("Block Index : " + str(block_index))
+                    print("Memory Address : " + hex(int(addr,2)))
+                    print("Valid Bit : 1")
+                    print("Tag : " + str(Tag[block_index]))
                     Hit += 1
-                    Register[int(fetch[11:16],2)] = Cache[temp]
-                else:   #Miss
+                    Register[int(fetch[11:16], 2)] = Cache[block_index]
+                else:  # Miss
+                    print("MISS !")
+                    print("Block Index : " + str(block_index))
+                    print("Memory Address : " + hex(int(addr, 2)))
+                    print("Valid Bit : 1")
+                    print("Tag : " + str(Tag[block_index]))
                     Miss += 1
-                    Cache[temp] = Memory[imm + Register[int(fetch[6:11],2)] - 8192]
-                    Register[int(fetch[11:16],2)] = Cache[temp]
-                    Tag[temp] = fetch[16:32-offset-2]
-                    
+                    Cache[block_index] = Memory[int(addr, 2) - 8192]
+                    Register[int(fetch[11:16], 2)] = Cache[block_index]
+                    Tag[block_index] = tag
+                    print("Cache Updated")
             print("\n")
 
         elif(fetch[0:6] == '101011'): #sw
@@ -371,7 +390,7 @@ def simulate(Instruction,Hex):
     #print("Memory: " + str(Memory))
      
 def main():
-    I_file = open("i_mem_A1.txt","r")     #Change file name to change input file
+    I_file = open("i_mem_B2.txt","r")     #Change file name to change input file
     Instruction = []             
     Hex = []
     for line in I_file:
